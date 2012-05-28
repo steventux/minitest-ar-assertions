@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["steventux"]
   s.date = "2012-05-28"
-  s.description = "A collection of minitest assertions for use when testing activerecord associations and validations."
+  s.description = "TODO: longer description of your gem"
   s.email = "steve.laing@gmail.com"
   s.extra_rdoc_files = [
     "LICENSE.txt",
