@@ -22,7 +22,7 @@ Now you are ready to do your thing...
 == Validations:
   assert_validates_presence_of User, :email
 
-  assert_validates_uniqueness_of, User, :username, :email
+  assert_validates_uniqueness_of User, :username, :email
 
 
 == Contributing to minitest-ar-assertions
