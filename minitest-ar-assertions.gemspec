@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "lib/minitest_activerecord_assertions.rb",
+    "minitest-ar-assertions.gemspec",
     "test/helper.rb",
     "test/test_minitest_activerecord_assertions.rb"
   ]
