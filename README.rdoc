@@ -2,18 +2,27 @@
 
 A (small) collection of assertions for testing ActiveRecord associations and validations with MiniTest.
 
+== Install:
+In your Gemfile:
+  gem 'minitest-ar-assertions', :require => 'minitest_activerecord_assertions'
+
+then in test_helper.rb (or test_config.rb if like me, you love Padrino)
+  include MiniTest::Assertions::ActiveRecord
+  
+Now you are ready to do your thing...
+
 == Associations:
-assert_association Comment, :has_many, :likes, :as => :likeable
+  assert_association Comment, :has_many, :likes, :as => :likeable
 
-assert_association Post, :has_many, :likes => :as => :likeable
+  assert_association Post, :has_many, :likes => :as => :likeable
 
-assert_association Like :belongs_to, :likeable
+  assert_association Like :belongs_to, :likeable
 
 
 == Validations:
-assert_validates_presence_of User, :email
+  assert_validates_presence_of User, :email
 
-assert_validates_uniqueness_of, User, :username, :email
+  assert_validates_uniqueness_of, User, :username, :email
 
 
 == Contributing to minitest-ar-assertions
