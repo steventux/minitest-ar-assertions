@@ -1,6 +1,17 @@
 = minitest-ar-assertions
 
-Description goes here.
+A (small) collection of assertions for testing ActiveRecord associations and validations with MiniTest.
+
+Associations:
+-------------
+assert_association Comment, :has_many, :likes, :as => :likeable
+assert_association Post, :has_many, :likes => :as => :likeable
+assert_association Like :belongs_to, :likeable
+
+Validations:
+------------
+assert_validates_presence_of User, :email
+assert_validates_uniqueness_of, User, :username, :email
 
 == Contributing to minitest-ar-assertions
  
