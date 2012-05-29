@@ -41,3 +41,4 @@ describe "validates_uniqueness_of assertion" do
     assert assert_validates_uniqueness_of User, :username, :email
   end
 end
+
