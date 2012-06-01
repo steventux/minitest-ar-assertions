@@ -1,30 +1,19 @@
 require 'helper'
 require 'active_support/core_ext/module/delegation'
 
-class UnvalidatedThing
-  include ActiveRecord::Reflection
-  include ActiveRecord::Validations
-    
+class UnvalidatedThing < ActiveRecord::Base
 end
 
-class UnassociatedThing
-  include ActiveRecord::Reflection
-  include ActiveRecord::Validations
+class UnassociatedThing < ActiveRecord::Base
 end
 
 class User < ActiveRecord::Base
-  include ActiveRecord::Reflection
-  include ActiveRecord::Validations
-  
   has_many :likes, :as => :likeable
   validates_presence_of :email
   validates_uniqueness_of :username, :email
 end
 
 class Like < ActiveRecord::Base
-  include ActiveRecord::Reflection
-  include ActiveRecord::Validations
-  
   belongs_to :likeable, :polymorphic => true
   belongs_to :user
   validates_presence_of :email
