@@ -7,7 +7,7 @@ In your Gemfile:
   gem 'minitest-ar-assertions', :require => 'minitest_activerecord_assertions'
 
 then in test_helper.rb (or test_config.rb if like me, you love Padrino)
-  include MiniTest::Assertions::ActiveRecord
+  include MiniTest::ActiveRecordAssertions
   
 Now you are ready to do your thing...
 

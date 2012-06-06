@@ -15,5 +15,5 @@ require 'minitest_activerecord_assertions'
 require "active_record"
 
 class MiniTest::Unit::TestCase
-  include MiniTest::Assertions::ActiveRecord
+  include MiniTest::ActiveRecordAssertions
 end
