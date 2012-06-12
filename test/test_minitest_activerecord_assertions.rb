@@ -16,6 +16,7 @@ end
 class Like < ActiveRecord::Base
   belongs_to :likeable, :polymorphic => true
   belongs_to :user
+  validates_numericality_of :user_id
   validates_presence_of :email
   validates_uniqueness_of :username, :email
 end
@@ -61,6 +62,18 @@ describe "assert_validates_uniqueness_of assertion" do
   
   it "should pass for models with validates_uniqueness_of validations" do
     assert assert_validates_uniqueness_of(User, :username, :email)
+  end
+end
+
+describe "assert_validates_numericality_of assertion" do
+  it "should fail for models with no validations" do
+    assert_raises MiniTest::Assertion do
+      assert_validates_numericality_of UnvalidatedThing, :user_id
+    end
+  end
+  
+  it "should pass for models with validates_numericality_of validations" do
+    assert assert_validates_numericality_of(Like, :user_id)
   end
 end
 

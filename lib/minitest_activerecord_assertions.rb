@@ -37,6 +37,12 @@ module MiniTest
       end
       assert has_validator, "#{clazz} does not validate_uniqueness_of #{attributes}"
     end
+    
+    def assert_validates_numericality_of(clazz, attribute, options = {})
+      assert_includes clazz._validators[attribute].map{ |v| v.class }, 
+        ::ActiveModel::Validations::NumericalityValidator,
+          "#{clazz} does not validate_numericality_of #{attribute}" 
+    end
   
   end
 
