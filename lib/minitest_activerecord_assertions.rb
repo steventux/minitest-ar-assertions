@@ -2,6 +2,16 @@ module MiniTest
 
   module ActiveRecordAssertions
     
+    class ValidationsTypeFactory
+      def self.by_name(name)
+        types = {
+          :length => ActiveModel::Validations::LengthValidator,
+          :format => ActiveModel::Validations::FormatValidator
+        }
+        return types[name]
+      end
+    end
+
     def assert_association(clazz, association, associate, options={})
       reflected_assoc = clazz.reflect_on_association(associate)
       flunk "#{clazz} has no association with #{associate}" if reflected_assoc.nil?
@@ -39,7 +49,8 @@ module MiniTest
     end
     
     def assert_validates_numericality_of(clazz, attribute, options = {})
-      assert_includes clazz._validators[attribute].map{ |v| v.class }, 
+      validator_classes = clazz._validators[attribute].map{ |v| v.class }
+      assert_includes validator_classes, 
         ::ActiveModel::Validations::NumericalityValidator,
           "#{clazz} does not validate_numericality_of #{attribute}" 
     end
@@ -60,6 +71,59 @@ module MiniTest
         assert validator_classes.include?(inclusion_validator), 
         "#{clazz} does not validate_inclusion_of #{attribute}"
       end
+    end
+
+    def assert_validates_exclusion_of(clazz, attribute, options = {})
+      validators = clazz._validators[attribute]
+      refute validators.empty?, "#{clazz} does not have validations for #{attribute}"
+      exclusion_validator = ::ActiveModel::Validations::ExclusionValidator
+      validator_classes = validators.map { |v| v.class }
+      
+      if options.size > 0
+        index = validators.index {|c| c if c.class == ActiveModel::Validations::ExclusionValidator }
+        validator = validators[index]
+        assert validator_classes.include?(exclusion_validator) && validator.options == options,
+          "#{clazz} does not validate_exclusion_of #{attribute} with options #{options}"
+
+      else
+        assert validator_classes.include?(exclusion_validator), 
+        "#{clazz} does not validate_exclusion_of #{attribute}"
+      end
+    end
+
+    def assert_validates_confirmation_of(clazz, attribute, options = {})
+      validators = clazz._validators[attribute]
+      refute validators.empty?, "#{clazz} does not have validations for #{attribute}"
+      confirmation_validator = ::ActiveModel::Validations::ConfirmationValidator
+      validator_classes = validators.map { |v| v.class }
+      
+      if options.size > 0
+        index = validators.index {|c| c if c.class == ActiveModel::Validations::ConfirmationValidator }
+        validator = validators[index]
+        assert validator_classes.include?(confirmation_validator) && validator.options == options,
+          "#{clazz} does not validate_confirmation_of #{attribute} with options #{options}"
+
+      else
+        assert validator_classes.include?(confirmation_validator), 
+        "#{clazz} does not validate_confirmation_of #{attribute}"
+      end
+    end
+
+    def assert_validates(clazz, attribute, options = {})
+      validators = clazz._validators[attribute]
+      refute (validators.empty?), 
+        "#{clazz} does not have validations for #{attribute}"
+
+      name = options.respond_to?(:keys) ? options.keys.first.to_sym : options.to_sym
+      implied_validator = ActiveRecordAssertions::ValidationsTypeFactory.by_name(name)
+      validator_classes = validators.map { |v| v.class }
+      assert validator_classes.include?(implied_validator),
+        "#{clazz} does not validates #{attribute} for #{options.keys.first}"
+
+      index = validators.index {|c| c if c.class == implied_validator }
+      validator = validators[index]
+      assert ((validator.options == options) || (validator.options == options.fetch(options.keys.first))),
+        "#{clazz} does not validates #{attribute} with options #{options}"
     end
   
   end
