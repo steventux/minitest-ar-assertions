@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "minitest-ar-assertions"
-  s.version = "0.0.4"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Steve Laing"]
-  s.date = "2012-05-28"
+  s.authors = ["Steve Laing", "Ismael Stahelin"]
+  s.date = "2013-07-11"
   s.description = "A collection of assertions for use with minitest and activerecord. Simplifies testing associations and validations by introspecting associations and validations for you models."
   s.email = "steve.laing@gmail.com"
   s.extra_rdoc_files = [
