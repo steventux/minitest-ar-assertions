@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :likes, :as => :likeable
   validates_presence_of :email
   validates_uniqueness_of :username, :email
+  validates_inclusion_of :can_like, :in => [true, false]
 end
 
 class Like < ActiveRecord::Base
@@ -77,3 +78,18 @@ describe "assert_validates_numericality_of assertion" do
   end
 end
 
+describe "assert_validates_inclusion_of assertion" do
+  it "should fail for models with no validations" do 
+    assert_raises MiniTest::Assertion do
+      assert_validates_inclusion_of UnvalidatedThing, :can_like, :in => [true, false]
+    end
+  end
+
+  it "should pass for models with validates_inclusion_of validations" do
+    assert assert_validates_inclusion_of(User, :can_like)
+    assert assert_validates_inclusion_of(User, :can_like, :in => [true, false])
+    assert_raises MiniTest::Assertion do
+      assert_validates_inclusion_of(User, :can_like, :in => [true, true])
+    end
+  end
+end

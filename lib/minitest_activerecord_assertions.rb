@@ -43,6 +43,24 @@ module MiniTest
         ::ActiveModel::Validations::NumericalityValidator,
           "#{clazz} does not validate_numericality_of #{attribute}" 
     end
+
+    def assert_validates_inclusion_of(clazz, attribute, options = {})
+      validators = clazz._validators[attribute]
+      refute validators.empty?, "#{clazz} does not have validations for #{attribute}"
+      inclusion_validator = ::ActiveModel::Validations::InclusionValidator
+      validator_classes = validators.map { |v| v.class }
+      
+      if options.size > 0
+        index = validators.index {|c| c if c.class == ActiveModel::Validations::InclusionValidator }
+        validator = validators[index]
+        assert validator_classes.include?(inclusion_validator) && validator.options == options,
+          "#{clazz} does not validate_inclusion_of #{attribute} with options #{options}"
+
+      else
+        assert validator_classes.include?(inclusion_validator), 
+        "#{clazz} does not validate_inclusion_of #{attribute}"
+      end
+    end
   
   end
 
