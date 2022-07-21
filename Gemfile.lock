@@ -29,7 +29,7 @@ GEM
     rake (13.0.6)
     rchardet (1.8.0)
     rdoc (6.3.1)
-    tzinfo (0.3.60)
+    tzinfo (0.3.61)
 
 PLATFORMS
   ruby
